@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Add your configuration here
+  env: {
+    NEXT_PUBLIC_DEMO_MODE: "true",
+  },
 };
 
 export default nextConfig;
