@@ -30,6 +30,16 @@ export default function SignInClient() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<TSignInFormValues> = async (data) => {
+    // Check if demo mode is enabled
+    const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+
+    if (isDemoMode) {
+      // In demo mode, skip API call and go directly to dashboard
+      toast.success("Sign in successful (Demo Mode)");
+      router.push("/dashboard");
+      return;
+    }
+
     const response = await signIn(data);
 
     if (response?.data?.force_password_reset) {
