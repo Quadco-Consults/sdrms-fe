@@ -1,0 +1,222 @@
+import { Workflow } from "../types/workflow";
+
+export const mockWorkflows: Workflow[] = [
+  {
+    id: "1",
+    workflowName: "GHG Reporting Approval",
+    datasetTypes: ["Finance", "HR"],
+    actionsCovered: ["Publish"],
+    assignedApprovers: [
+      {
+        id: "1",
+        fieldName: "Finance Manager",
+        assignedTo: "John Doe",
+        email: "john.doe@sdrms.com",
+        order: 1,
+      },
+    ],
+    status: "active",
+    date: "07/02/2025",
+    createdAt: "2025-02-07T00:00:00Z",
+    updatedAt: "2025-02-07T00:00:00Z",
+    workflowSteps: [
+      {
+        order: 1,
+        description: "Submission by Data Owner",
+        approverFieldName: "Data Owner",
+      },
+      {
+        order: 2,
+        description: "Review by Finance Manager",
+        approverFieldName: "Finance Manager",
+      },
+      {
+        order: 3,
+        description: "Publish to Catalog",
+        approverFieldName: "Finance Manager",
+      },
+    ],
+    createdBy: "Admin",
+    email: "admin@sdrms.com",
+  },
+  {
+    id: "2",
+    workflowName: "Financial Reporting Approval",
+    datasetTypes: ["Finance", "HR"],
+    actionsCovered: ["Publish"],
+    assignedApprovers: [
+      {
+        id: "1",
+        fieldName: "Data Owner",
+        assignedTo: "Jeff",
+        email: "jeff@sdrms.com",
+        order: 1,
+      },
+      {
+        id: "2",
+        fieldName: "Data Steward",
+        assignedTo: "Jeff",
+        email: "jeff@sdrms.com",
+        order: 2,
+      },
+      {
+        id: "3",
+        fieldName: "Compliance Officer",
+        assignedTo: "Nanman",
+        email: "nanman@sdrms.com",
+        order: 3,
+      },
+    ],
+    status: "active",
+    date: "07/02/2025",
+    createdAt: "2025-02-07T00:00:00Z",
+    updatedAt: "2025-02-07T00:00:00Z",
+    workflowSteps: [
+      {
+        order: 1,
+        description: "Submission by Data Owner",
+        approverFieldName: "Data Owner",
+      },
+      {
+        order: 2,
+        description: "Review by Data Steward",
+        approverFieldName: "Data Steward",
+      },
+      {
+        order: 3,
+        description: "Final Approval by Compliance Officer",
+        approverFieldName: "Compliance Officer",
+      },
+      {
+        order: 4,
+        description: "Publish to Catalog",
+        approverFieldName: "Compliance Officer",
+      },
+    ],
+    createdBy: "Admin",
+    email: "chinedu@gmail.com",
+  },
+  {
+    id: "3",
+    workflowName: "Environmental Data Approval",
+    datasetTypes: ["Environmental"],
+    actionsCovered: ["Publish", "Edit Metadata"],
+    assignedApprovers: [
+      {
+        id: "1",
+        fieldName: "Data Steward",
+        assignedTo: "Sarah Williams",
+        email: "sarah.williams@sdrms.com",
+        order: 1,
+      },
+      {
+        id: "2",
+        fieldName: "Department Head",
+        assignedTo: "Michael Johnson",
+        email: "michael.johnson@sdrms.com",
+        order: 2,
+      },
+    ],
+    status: "active",
+    date: "05/02/2025",
+    createdAt: "2025-02-05T00:00:00Z",
+    updatedAt: "2025-02-05T00:00:00Z",
+    workflowSteps: [
+      {
+        order: 1,
+        description: "Review by Data Steward",
+        approverFieldName: "Data Steward",
+      },
+      {
+        order: 2,
+        description: "Final Approval by Department Head",
+        approverFieldName: "Department Head",
+      },
+      {
+        order: 3,
+        description: "Publish to Catalog",
+        approverFieldName: "Department Head",
+      },
+    ],
+    createdBy: "Admin",
+    email: "admin@sdrms.com",
+  },
+  {
+    id: "4",
+    workflowName: "Social Impact Report Workflow",
+    datasetTypes: ["Social Impact", "HR"],
+    actionsCovered: ["Publish", "Export"],
+    assignedApprovers: [
+      {
+        id: "1",
+        fieldName: "HR Manager",
+        assignedTo: "Emily Davis",
+        email: "emily.davis@sdrms.com",
+        order: 1,
+      },
+    ],
+    status: "inactive",
+    date: "03/02/2025",
+    createdAt: "2025-02-03T00:00:00Z",
+    updatedAt: "2025-02-03T00:00:00Z",
+    workflowSteps: [
+      {
+        order: 1,
+        description: "Review by HR Manager",
+        approverFieldName: "HR Manager",
+      },
+      {
+        order: 2,
+        description: "Publish and Export",
+        approverFieldName: "HR Manager",
+      },
+    ],
+    createdBy: "Jane Smith",
+    email: "jane.smith@sdrms.com",
+  },
+  {
+    id: "5",
+    workflowName: "Governance Compliance Workflow",
+    datasetTypes: ["Governance", "Finance"],
+    actionsCovered: ["Publish", "Delete", "Edit Metadata"],
+    assignedApprovers: [
+      {
+        id: "1",
+        fieldName: "Compliance Officer",
+        assignedTo: "David Brown",
+        email: "david.brown@sdrms.com",
+        order: 1,
+      },
+      {
+        id: "2",
+        fieldName: "Finance Manager",
+        assignedTo: "John Doe",
+        email: "john.doe@sdrms.com",
+        order: 2,
+      },
+    ],
+    status: "active",
+    date: "01/02/2025",
+    createdAt: "2025-02-01T00:00:00Z",
+    updatedAt: "2025-02-01T00:00:00Z",
+    workflowSteps: [
+      {
+        order: 1,
+        description: "Compliance Review",
+        approverFieldName: "Compliance Officer",
+      },
+      {
+        order: 2,
+        description: "Finance Approval",
+        approverFieldName: "Finance Manager",
+      },
+      {
+        order: 3,
+        description: "Publish to Catalog",
+        approverFieldName: "Finance Manager",
+      },
+    ],
+    createdBy: "Admin",
+    email: "admin@sdrms.com",
+  },
+];

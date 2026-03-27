@@ -1,0 +1,108 @@
+import { RoleResponse, PermissionResponse } from "../controllers/rolesController";
+
+export const mockPermissions: PermissionResponse[] = [
+  {
+    id: "1",
+    name: "view_dashboard",
+    description: "Can view dashboard",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "2",
+    name: "manage_users",
+    description: "Can create, update, and delete users",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "3",
+    name: "manage_roles",
+    description: "Can create, update, and delete roles",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "4",
+    name: "view_environmental_data",
+    description: "Can view environmental monitoring data",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "5",
+    name: "edit_environmental_data",
+    description: "Can edit environmental monitoring data",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "6",
+    name: "view_reports",
+    description: "Can view reports and analytics",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "7",
+    name: "generate_reports",
+    description: "Can generate new reports",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "8",
+    name: "manage_compliance",
+    description: "Can manage compliance and governance",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+];
+
+export const mockRoles: RoleResponse[] = [
+  {
+    id: "1",
+    name: "Admin",
+    permissions: ["1", "2", "3", "4", "5", "6", "7", "8"],
+    permissions_count: ["1", "2", "3", "4", "5", "6", "7", "8"],
+    description: "Full system access with all permissions",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "2",
+    name: "Environmental Analyst",
+    permissions: ["1", "4", "5", "6"],
+    permissions_count: ["1", "4", "5", "6"],
+    description: "Can view and edit environmental data and view reports",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "3",
+    name: "Sustainability Officer",
+    permissions: ["1", "4", "6", "7"],
+    permissions_count: ["1", "4", "6", "7"],
+    description: "Can view environmental data and generate reports",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "4",
+    name: "Compliance Officer",
+    permissions: ["1", "6", "8"],
+    permissions_count: ["1", "6", "8"],
+    description: "Can manage compliance and view reports",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "5",
+    name: "Project Manager",
+    permissions: ["1", "4", "6", "7"],
+    permissions_count: ["1", "4", "6", "7"],
+    description: "Can view data and generate reports for projects",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+];
