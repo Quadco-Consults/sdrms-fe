@@ -1,10 +1,10 @@
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import WorkflowManagement from "@/modules/workflowManagement/components/WorkflowManagement";
+import WorkflowApprovals from "@/modules/workflowManagement/components/WorkflowApprovals";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Workflow Management - SDRMS",
-  description: "Manage approval workflows for data governance and compliance.",
+  title: "Workflow & Approvals - SDRMS",
+  description: "Orchestrate data governance and approval hierarchies.",
 };
 
 export default function WorkflowPage() {
@@ -13,10 +13,10 @@ export default function WorkflowPage() {
       <DashboardHeader
         breadcrumbs={[
           { label: "Dashboard" },
-          { label: "Workflow Management" },
+          { label: "Workflow" },
         ]}
       />
-      <WorkflowManagement />
+      <WorkflowApprovals />
     </div>
   );
 }
