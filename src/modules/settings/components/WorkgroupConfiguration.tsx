@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Download, Upload } from "lucide-react";
+import { Plus, Download, Upload, Pencil, Trash2, X } from "lucide-react";
 
 interface Workgroup {
+  id: string;
   name: string;
   description: string;
   templates: string[];
@@ -12,6 +13,7 @@ interface Workgroup {
 }
 
 interface Template {
+  id: string;
   name: string;
   category: string;
   subcategory: string;
@@ -19,53 +21,128 @@ interface Template {
 }
 
 export default function WorkgroupConfiguration() {
-  const [workgroups] = useState<Workgroup[]>([
+  const [workgroups, setWorkgroups] = useState<Workgroup[]>([
     {
+      id: "1",
       name: "Upstream",
       description: "Core business unit focusing on exploration and production activities.",
-      templates: ["UPSTREAM...", "UPSTREAM..."],
+      templates: ["UPSTREAM GHG", "UPSTREAM WATER"],
       completion: "87%",
     },
     {
+      id: "2",
       name: "Gas, Power & New Energy",
       description: "Core business unit focusing on gas infrastructure, marketing, and new energy solutions.",
-      templates: ["GAS..."],
+      templates: ["GAS EMISSIONS"],
       completion: "87%",
     },
     {
+      id: "3",
       name: "Downstream",
       description: "Core business unit focusing on trading, retail, shipping, and refining.",
-      templates: ["DOWNSTREAM..."],
+      templates: ["DOWNSTREAM OPS"],
       completion: "87%",
     },
     {
+      id: "4",
       name: "Finance",
       description: "Support function managing financial control, treasury, and tax management.",
-      templates: ["FINANCE..."],
+      templates: ["FINANCE METRICS"],
       completion: "87%",
     },
   ]);
 
   const [templates] = useState<Template[]>([
     {
+      id: "1",
       name: "Upstream GHG Template",
       category: "ENVIRONMENT",
       subcategory: "GHG Emissions",
       description: "Standard template for E&P GHG data",
     },
     {
+      id: "2",
       name: "Upstream Water Template",
       category: "ENVIRONMENT",
       subcategory: "Water",
       description: "Water withdrawal and discharge for E&P",
     },
     {
+      id: "3",
       name: "Downstream Operations Template",
       category: "ENVIRONMENT",
       subcategory: "Energy",
       description: "Template for retail and refining",
     },
   ]);
+
+  const [showWorkgroupModal, setShowWorkgroupModal] = useState(false);
+  const [editingWorkgroup, setEditingWorkgroup] = useState<Workgroup | null>(null);
+  const [workgroupForm, setWorkgroupForm] = useState({
+    name: "",
+    description: "",
+    templates: [] as string[],
+  });
+
+  const handleAddWorkgroup = () => {
+    setWorkgroupForm({
+      name: "",
+      description: "",
+      templates: [],
+    });
+    setEditingWorkgroup(null);
+    setShowWorkgroupModal(true);
+  };
+
+  const handleEditWorkgroup = (workgroup: Workgroup) => {
+    setWorkgroupForm({
+      name: workgroup.name,
+      description: workgroup.description,
+      templates: workgroup.templates,
+    });
+    setEditingWorkgroup(workgroup);
+    setShowWorkgroupModal(true);
+  };
+
+  const handleSaveWorkgroup = () => {
+    if (editingWorkgroup) {
+      setWorkgroups(
+        workgroups.map((wg) =>
+          wg.id === editingWorkgroup.id
+            ? { ...editingWorkgroup, ...workgroupForm, completion: "0%" }
+            : wg
+        )
+      );
+    } else {
+      const newWorkgroup: Workgroup = {
+        id: String(Date.now()),
+        ...workgroupForm,
+        completion: "0%",
+      };
+      setWorkgroups([...workgroups, newWorkgroup]);
+    }
+    setShowWorkgroupModal(false);
+  };
+
+  const handleDeleteWorkgroup = (id: string) => {
+    if (confirm("Are you sure you want to delete this workgroup?")) {
+      setWorkgroups(workgroups.filter((wg) => wg.id !== id));
+    }
+  };
+
+  const toggleTemplate = (templateName: string) => {
+    if (workgroupForm.templates.includes(templateName)) {
+      setWorkgroupForm({
+        ...workgroupForm,
+        templates: workgroupForm.templates.filter((t) => t !== templateName),
+      });
+    } else {
+      setWorkgroupForm({
+        ...workgroupForm,
+        templates: [...workgroupForm.templates, templateName],
+      });
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -79,7 +156,10 @@ export default function WorkgroupConfiguration() {
             Define business units and map them to multiple data templates.
           </p>
         </div>
-        <Button className="bg-teal-500 hover:bg-teal-600 text-white">
+        <Button
+          onClick={handleAddWorkgroup}
+          className="bg-teal-500 hover:bg-teal-600 text-white"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Add Workgroup
         </Button>
@@ -119,9 +199,9 @@ export default function WorkgroupConfiguration() {
               </div>
             </div>
             <div>
-              {workgroups.map((wg, index) => (
+              {workgroups.map((wg) => (
                 <div
-                  key={index}
+                  key={wg.id}
                   className="px-6 py-4 border-b border-gray-100 hover:bg-gray-50"
                 >
                   <div className="grid grid-cols-3 gap-4 items-center">
@@ -142,11 +222,17 @@ export default function WorkgroupConfiguration() {
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <button className="text-gray-600 hover:text-gray-900 text-sm font-medium">
-                        Edit
+                      <button
+                        onClick={() => handleEditWorkgroup(wg)}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-teal-600"
+                      >
+                        <Pencil size={16} />
                       </button>
-                      <button className="text-red-600 hover:text-red-700 text-sm font-medium">
-                        Delete
+                      <button
+                        onClick={() => handleDeleteWorkgroup(wg.id)}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-red-600"
+                      >
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </div>
@@ -165,9 +251,9 @@ export default function WorkgroupConfiguration() {
             </button>
           </div>
 
-          {templates.map((template, index) => (
+          {templates.map((template) => (
             <div
-              key={index}
+              key={template.id}
               className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex items-start gap-3">
@@ -215,6 +301,113 @@ export default function WorkgroupConfiguration() {
           ))}
         </div>
       </div>
+
+      {/* Add/Edit Workgroup Modal */}
+      {showWorkgroupModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {editingWorkgroup ? "Edit Workgroup" : "Add New Workgroup"}
+              </h3>
+              <button
+                onClick={() => setShowWorkgroupModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Workgroup Name *
+                </label>
+                <select
+                  value={workgroupForm.name}
+                  onChange={(e) =>
+                    setWorkgroupForm({ ...workgroupForm, name: e.target.value })
+                  }
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
+                >
+                  <option value="">Select workgroup name...</option>
+                  <option>Upstream</option>
+                  <option>Gas, Power & New Energy</option>
+                  <option>Downstream</option>
+                  <option>Finance</option>
+                  <option>Corporate</option>
+                  <option>LNG</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={workgroupForm.description}
+                  onChange={(e) =>
+                    setWorkgroupForm({
+                      ...workgroupForm,
+                      description: e.target.value,
+                    })
+                  }
+                  className="w-full p-3 border border-gray-300 rounded-lg text-sm min-h-[80px] resize-none focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
+                  placeholder="Enter a brief description..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Template Assignments *
+                </label>
+                <div className="space-y-2 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                  {templates.map((template) => (
+                    <label
+                      key={template.id}
+                      className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={workgroupForm.templates.includes(template.name)}
+                        onChange={() => toggleTemplate(template.name)}
+                        className="w-4 h-4 text-teal-600 rounded"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-sm text-gray-900">
+                          {template.name}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {template.category} - {template.subcategory}
+                        </div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Selected: {workgroupForm.templates.length} template(s)
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6 pt-6 border-t">
+              <Button
+                variant="outline"
+                onClick={() => setShowWorkgroupModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSaveWorkgroup}
+                className="bg-teal-500 hover:bg-teal-600 text-white"
+                disabled={!workgroupForm.name || workgroupForm.templates.length === 0}
+              >
+                {editingWorkgroup ? "Update Workgroup" : "Add Workgroup"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
