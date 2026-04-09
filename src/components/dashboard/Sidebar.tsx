@@ -4,20 +4,14 @@ import {
   LayoutDashboard,
   Cloud,
   Users,
-  BarChart3,
   FileCheck,
-  Target,
-  Calculator,
   Workflow,
-  Handshake,
-  Lightbulb,
   Settings as SettingsIcon,
   HelpCircle,
   LogOut,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Shield,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -46,54 +40,24 @@ const mainNavItems: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
-    title: "Environmental Monitoring",
+    title: "Environment",
     href: "/dashboard/environmental-monitoring",
     icon: Cloud,
   },
   {
-    title: "Social Impact and Workforce Metrics",
+    title: "Social",
     href: "/social-impact",
     icon: Users,
   },
   {
-    title: "Reporting & Analytics",
-    href: "/dashboard/reporting-analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Governance and Compliance",
+    title: "Governance",
     href: "/dashboard/governance-compliance",
     icon: FileCheck,
-  },
-  {
-    title: "Rapid Assessment",
-    href: "/dashboard/rapid-assessment",
-    icon: Target,
-  },
-  {
-    title: "Emissions Calculator",
-    href: "/dashboard/emissions-calculator",
-    icon: Calculator,
   },
   {
     title: "Workflow",
     href: "/workflow",
     icon: Workflow,
-  },
-  {
-    title: "Partnerships",
-    href: "/dashboard/partnerships",
-    icon: Handshake,
-  },
-  {
-    title: "Research & Innovation",
-    href: "/dashboard/research-innovation",
-    icon: Lightbulb,
-  },
-  {
-    title: "User Management",
-    href: "/users",
-    icon: Shield,
   },
 ];
 
