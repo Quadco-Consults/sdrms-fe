@@ -7,16 +7,19 @@ import StandardsFactors from "./StandardsFactors";
 import CustomDataSources from "./CustomDataSources";
 import Integrations from "./Integrations";
 
-type TabType = "organization" | "standards" | "datasources" | "integrations";
+type TabType = "organization" | "standards" | "datasources" | "users" | "integrations" | "workgroup" | "fields";
 
 export default function SettingsModule() {
   const [activeTab, setActiveTab] = useState<TabType>("organization");
 
   const tabs = [
-    { id: "organization" as TabType, label: "Organization" },
+    { id: "organization" as TabType, label: "Organisation" },
     { id: "standards" as TabType, label: "Standards & Factors" },
-    { id: "datasources" as TabType, label: "Custom Data Sources" },
+    { id: "datasources" as TabType, label: "Custom Sources" },
+    { id: "users" as TabType, label: "Users & Roles" },
     { id: "integrations" as TabType, label: "Integrations" },
+    { id: "workgroup" as TabType, label: "Workgroup Configuration" },
+    { id: "fields" as TabType, label: "Field Configuration" },
   ];
 
   return (
@@ -64,7 +67,10 @@ export default function SettingsModule() {
         {activeTab === "organization" && <OrganizationSettings />}
         {activeTab === "standards" && <StandardsFactors />}
         {activeTab === "datasources" && <CustomDataSources />}
+        {activeTab === "users" && <div className="p-6 bg-white rounded-xl border">Users & Roles - Coming Soon</div>}
         {activeTab === "integrations" && <Integrations />}
+        {activeTab === "workgroup" && <div className="p-6 bg-white rounded-xl border">Workgroup Configuration - Coming Soon</div>}
+        {activeTab === "fields" && <div className="p-6 bg-white rounded-xl border">Field Configuration - Coming Soon</div>}
       </div>
     </div>
   );

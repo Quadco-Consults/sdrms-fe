@@ -49,43 +49,11 @@ const mainNavItems: NavItem[] = [
     title: "Environmental Monitoring",
     href: "/dashboard/environmental-monitoring",
     icon: Cloud,
-    hasDropdown: true,
-    subItems: [
-      { title: "Overview", href: "/dashboard/environmental-monitoring" },
-      {
-        title: "Greenhouse Gas Emissions Tracking",
-        href: "/dashboard/environmental-monitoring/ghg-tracking",
-      },
-      {
-        title: "Greenhouse Gas Emissions",
-        href: "/dashboard/environmental-monitoring/ghg-emissions",
-      },
-      {
-        title: "Energy Efficiency",
-        href: "/dashboard/environmental-monitoring/energy-efficiency",
-      },
-      {
-        title: "Energy Consumption",
-        href: "/dashboard/environmental-monitoring/energy-consumption",
-      },
-      {
-        title: "Water Consumption",
-        href: "/dashboard/environmental-monitoring/water-consumption",
-      },
-    ],
   },
   {
     title: "Social Impact and Workforce Metrics",
     href: "/social-impact",
     icon: Users,
-    hasDropdown: true,
-    subItems: [
-      { title: "Overview", href: "/social-impact" },
-      {
-        title: "Workforce Diversity & Inclusion",
-        href: "/workforce-diversity",
-      },
-    ],
   },
   {
     title: "Reporting & Analytics",
@@ -111,11 +79,6 @@ const mainNavItems: NavItem[] = [
     title: "Workflow",
     href: "/workflow",
     icon: Workflow,
-    hasDropdown: true,
-    subItems: [
-      { title: "Workflow Management", href: "/workflow" },
-      { title: "Workflow Task Manager", href: "/workflow-tasks" },
-    ],
   },
   {
     title: "Partnerships",
@@ -131,11 +94,6 @@ const mainNavItems: NavItem[] = [
     title: "User Management",
     href: "/users",
     icon: Shield,
-    hasDropdown: true,
-    subItems: [
-      { title: "Users", href: "/users" },
-      { title: "Roles", href: "/roles" },
-    ],
   },
 ];
 
