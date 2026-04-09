@@ -5,7 +5,10 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import OrganizationSettings from "./OrganizationSettings";
 import StandardsFactors from "./StandardsFactors";
 import CustomDataSources from "./CustomDataSources";
+import UsersRoles from "./UsersRoles";
 import Integrations from "./Integrations";
+import WorkgroupConfiguration from "./WorkgroupConfiguration";
+import FieldConfiguration from "./FieldConfiguration";
 
 type TabType = "organization" | "standards" | "datasources" | "users" | "integrations" | "workgroup" | "fields";
 
@@ -67,10 +70,10 @@ export default function SettingsModule() {
         {activeTab === "organization" && <OrganizationSettings />}
         {activeTab === "standards" && <StandardsFactors />}
         {activeTab === "datasources" && <CustomDataSources />}
-        {activeTab === "users" && <div className="p-6 bg-white rounded-xl border">Users & Roles - Coming Soon</div>}
+        {activeTab === "users" && <UsersRoles />}
         {activeTab === "integrations" && <Integrations />}
-        {activeTab === "workgroup" && <div className="p-6 bg-white rounded-xl border">Workgroup Configuration - Coming Soon</div>}
-        {activeTab === "fields" && <div className="p-6 bg-white rounded-xl border">Field Configuration - Coming Soon</div>}
+        {activeTab === "workgroup" && <WorkgroupConfiguration />}
+        {activeTab === "fields" && <FieldConfiguration />}
       </div>
     </div>
   );
