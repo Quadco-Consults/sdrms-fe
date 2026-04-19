@@ -45,7 +45,6 @@ export default function FieldConfiguration() {
       name: "Upstream",
       percentage: "87%",
       children: [
-        { name: "NRL", percentage: "87%" },
         { name: "NPDC", percentage: "87%" },
       ],
     },
@@ -57,7 +56,10 @@ export default function FieldConfiguration() {
     {
       name: "Downstream",
       percentage: "87%",
-      children: [{ name: "PPMC", percentage: "87%" }],
+      children: [
+        { name: "NRL", percentage: "87%" },
+        { name: "PPMC", percentage: "87%" },
+      ],
     },
     {
       name: "LNG",
