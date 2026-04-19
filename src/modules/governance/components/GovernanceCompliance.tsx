@@ -7,6 +7,7 @@ import KPICard from "@/components/shared/KPICard";
 import { Button } from "@/components/ui/button";
 import { Filter, Download, FileText, Eye, MapPin, TrendingUp, TrendingDown, Plus, Search, Settings } from "lucide-react";
 import { CHART_COLORS } from "@/data/dashboard-mock";
+import { toast } from "sonner";
 import {
   PieChart,
   Pie,
@@ -55,8 +56,13 @@ export default function GovernanceCompliance() {
   const [grcSubView, setGrcSubView] = useState<GRCSubView>("dashboard");
   const [stakeholderSubView, setStakeholderSubView] = useState<StakeholderSubView>("dashboard");
 
+  // Form visibility states
+  const [showKPIForm, setShowKPIForm] = useState(false);
+  const [showGRCForm, setShowGRCForm] = useState(false);
+  const [showPartnershipForm, setShowPartnershipForm] = useState(false);
+
   // Sustainability KPIs Data
-  const kpiRecords: KPIRecord[] = [
+  const [kpiRecords, setKpiRecords] = useState<KPIRecord[]>([
     {
       id: "KPI-001",
       name: "CARBON EMISSION REDUCTION",
@@ -93,7 +99,7 @@ export default function GovernanceCompliance() {
       actual: "45 %",
       status: "MISSED",
     },
-  ];
+  ]);
 
   const actualVsTargetData = [
     { month: "Jan", actual: 82, target: 85 },
@@ -126,7 +132,7 @@ export default function GovernanceCompliance() {
     { category: "Infrastructure", value: 15, color: CHART_COLORS.accent },
   ];
 
-  const partnerships: Partnership[] = [
+  const [partnerships, setPartnerships] = useState<Partnership[]>([
     {
       id: "PRT-001",
       organisation: "UNITED NATIONS (UN)",
@@ -167,9 +173,9 @@ export default function GovernanceCompliance() {
       period: "2024 - 2029",
       status: "ACTIVE",
     },
-  ];
+  ]);
 
-  const grcRecords = [
+  const [grcRecords, setGrcRecords] = useState([
     {
       id: "GRC-101",
       type: "COMPLIANCE",
@@ -206,7 +212,7 @@ export default function GovernanceCompliance() {
       status: "OPEN",
       date: "2026-03-10",
     },
-  ];
+  ]);
 
   return (
     <div>
@@ -294,10 +300,91 @@ export default function GovernanceCompliance() {
                   RECORDS
                 </button>
               </div>
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg text-xs font-extrabold uppercase tracking-tight hover:bg-green-700 transition-all shadow-lg shadow-green-600/20">
-                <Plus size={16} /> CREATE KPI
+              <button
+                onClick={() => setShowKPIForm(!showKPIForm)}
+                className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg text-xs font-extrabold uppercase tracking-tight hover:bg-green-700 transition-all shadow-lg shadow-green-600/20">
+                {showKPIForm ? "✕ CLOSE FORM" : <><Plus size={16} /> CREATE KPI</>}
               </button>
             </div>
+
+            {/* KPI Form */}
+            {showKPIForm && (
+              <div className="bg-white rounded-xl border-l-4 border-green-600 shadow-sm p-6 border border-gray-200 animate-in fade-in slide-in-from-top-4 duration-300">
+                <h4 className="text-base font-extrabold text-gray-900 mb-6 uppercase tracking-wide">
+                  New Sustainability KPI
+                </h4>
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      KPI Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter KPI name"
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Category <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., Emissions, Energy, Social"
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      ESG Pillar <span className="text-red-600">*</span>
+                    </label>
+                    <select className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all">
+                      <option value="">Select pillar</option>
+                      <option value="ENVIRONMENTAL">Environmental</option>
+                      <option value="SOCIAL">Social</option>
+                      <option value="GOVERNANCE">Governance</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Target Value <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., 5000 tCO2e, 30%"
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Description
+                    </label>
+                    <textarea
+                      placeholder="Enter KPI description..."
+                      className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 min-h-[80px] resize-none focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowKPIForm(false)}
+                    className="text-gray-600"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      toast.success("KPI created successfully");
+                      setShowKPIForm(false);
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/20"
+                  >
+                    Create KPI
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Dashboard Sub-view */}
             {sustainabilitySubView === "dashboard" && (
@@ -638,10 +725,93 @@ export default function GovernanceCompliance() {
                   RECORDS REGISTER
                 </button>
               </div>
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg text-xs font-extrabold uppercase tracking-tight hover:bg-green-700 transition-all shadow-lg shadow-green-600/20">
-                <Plus size={16} /> LOG INCIDENT / RISK
+              <button
+                onClick={() => setShowGRCForm(!showGRCForm)}
+                className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg text-xs font-extrabold uppercase tracking-tight hover:bg-green-700 transition-all shadow-lg shadow-green-600/20">
+                {showGRCForm ? "✕ CLOSE FORM" : <><Plus size={16} /> LOG INCIDENT / RISK</>}
               </button>
             </div>
+
+            {/* GRC Form */}
+            {showGRCForm && (
+              <div className="bg-white rounded-xl border-l-4 border-green-600 shadow-sm p-6 border border-gray-200 animate-in fade-in slide-in-from-top-4 duration-300">
+                <h4 className="text-base font-extrabold text-gray-900 mb-6 uppercase tracking-wide">
+                  Log New GRC Incident/Risk
+                </h4>
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Type <span className="text-red-600">*</span>
+                    </label>
+                    <select className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all">
+                      <option value="">Select type</option>
+                      <option value="COMPLIANCE">Compliance</option>
+                      <option value="RISK">Risk</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Category <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., Regulatory Breach, Physical Risk"
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Business Unit <span className="text-red-600">*</span>
+                    </label>
+                    <select className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all">
+                      <option value="">Select BU</option>
+                      <option value="NNPC E&P Ltd">NNPC E&P Ltd</option>
+                      <option value="Corporate Strategy & Sustainability">Corporate Strategy & Sustainability</option>
+                      <option value="NNPC Gas Infrastructure Company">NNPC Gas Infrastructure Company</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Severity <span className="text-red-600">*</span>
+                    </label>
+                    <select className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all">
+                      <option value="">Select severity</option>
+                      <option value="CRITICAL">Critical</option>
+                      <option value="HIGH">High</option>
+                      <option value="MEDIUM">Medium</option>
+                      <option value="LOW">Low</option>
+                    </select>
+                  </div>
+                  <div className="col-span-2">
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Description
+                    </label>
+                    <textarea
+                      placeholder="Enter incident/risk description..."
+                      className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 min-h-[80px] resize-none focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowGRCForm(false)}
+                    className="text-gray-600"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      toast.success("GRC record logged successfully");
+                      setShowGRCForm(false);
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/20"
+                  >
+                    Log Record
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Dashboard Sub-view */}
             {grcSubView === "dashboard" && (
@@ -912,10 +1082,94 @@ export default function GovernanceCompliance() {
                   PARTNERSHIPS TABLE
                 </button>
               </div>
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg text-xs font-extrabold uppercase tracking-tight hover:bg-green-700 transition-all shadow-lg shadow-green-600/20">
-                <Plus size={16} /> ADD PARTNERSHIP
+              <button
+                onClick={() => setShowPartnershipForm(!showPartnershipForm)}
+                className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg text-xs font-extrabold uppercase tracking-tight hover:bg-green-700 transition-all shadow-lg shadow-green-600/20">
+                {showPartnershipForm ? "✕ CLOSE FORM" : <><Plus size={16} /> ADD PARTNERSHIP</>}
               </button>
             </div>
+
+            {/* Partnership Form */}
+            {showPartnershipForm && (
+              <div className="bg-white rounded-xl border-l-4 border-green-600 shadow-sm p-6 border border-gray-200 animate-in fade-in slide-in-from-top-4 duration-300">
+                <h4 className="text-base font-extrabold text-gray-900 mb-6 uppercase tracking-wide">
+                  Add New Partnership
+                </h4>
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Organisation Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter organisation name"
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Partnership Type <span className="text-red-600">*</span>
+                    </label>
+                    <select className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all">
+                      <option value="">Select type</option>
+                      <option value="Strategic">Strategic</option>
+                      <option value="Technical">Technical</option>
+                      <option value="Financial">Financial</option>
+                      <option value="Research">Research</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Category <span className="text-red-600">*</span>
+                    </label>
+                    <select className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all">
+                      <option value="">Select category</option>
+                      <option value="Multilateral Organisation">Multilateral Organisation</option>
+                      <option value="Government Body">Government Body</option>
+                      <option value="International NGO">International NGO</option>
+                      <option value="Academic Institution">Academic Institution</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Period <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., 2024 - 2028"
+                      className="w-full h-10 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 block">
+                      Description
+                    </label>
+                    <textarea
+                      placeholder="Enter partnership description..."
+                      className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 min-h-[80px] resize-none focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100 transition-all"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowPartnershipForm(false)}
+                    className="text-gray-600"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      toast.success("Partnership added successfully");
+                      setShowPartnershipForm(false);
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/20"
+                  >
+                    Add Partnership
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Dashboard Sub-view */}
             {stakeholderSubView === "dashboard" && (
