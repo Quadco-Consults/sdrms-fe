@@ -172,6 +172,12 @@ export default function WorkflowApprovals() {
     }
   };
 
+  const handleStartTask = (taskId: string) => {
+    console.log("Starting task:", taskId);
+    // TODO: Implement API call or navigate to task detail page
+    alert("Task started successfully! You can now begin working on this task.");
+  };
+
   const handleCreateWorkflow = () => {
     const newWorkflow: WorkflowDefinition = {
       id: String(workflows.length + 1),
@@ -645,7 +651,10 @@ export default function WorkflowApprovals() {
                       <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                       <span className="text-sm text-gray-700">{task.status}</span>
                     </div>
-                    <Button className="bg-green-700 hover:bg-green-800 text-white">
+                    <Button
+                      onClick={() => handleStartTask(task.id)}
+                      className="bg-green-700 hover:bg-green-800 text-white"
+                    >
                       Start Task
                     </Button>
                   </div>
