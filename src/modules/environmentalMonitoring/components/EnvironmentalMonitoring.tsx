@@ -6,6 +6,7 @@ import WaterConsumption from "./WaterConsumption";
 import AirQuality from "./AirQuality";
 import Biodiversity from "./Biodiversity";
 import Waste from "./Waste";
+import Methane from "./Methane";
 import GlobalFilters from "@/components/shared/GlobalFilters";
 import {
   BarChart,
@@ -22,7 +23,7 @@ import {
 } from "recharts";
 import { Cloud, Droplets, Zap, Trash2 } from "lucide-react";
 
-type TabType = "overview" | "ghg-tracking" | "air-quality" | "biodiversity" | "energy-efficiency" | "water-consumption" | "waste";
+type TabType = "overview" | "ghg-tracking" | "methane" | "air-quality" | "biodiversity" | "energy-efficiency" | "water-consumption" | "waste";
 
 // Mock data for overview
 const environmentalMetrics = [
@@ -53,6 +54,7 @@ export default function EnvironmentalMonitoring() {
   const tabs = [
     { id: "overview" as TabType, label: "Overview" },
     { id: "ghg-tracking" as TabType, label: "GHG Emissions" },
+    { id: "methane" as TabType, label: "Methane (CH4) Emissions" },
     { id: "air-quality" as TabType, label: "Air Quality" },
     { id: "biodiversity" as TabType, label: "Biodiversity" },
     { id: "energy-efficiency" as TabType, label: "Energy" },
@@ -207,6 +209,7 @@ export default function EnvironmentalMonitoring() {
         )}
 
         {activeTab === "ghg-tracking" && <GHGTracking />}
+        {activeTab === "methane" && <Methane />}
         {activeTab === "air-quality" && <AirQuality />}
         {activeTab === "biodiversity" && <Biodiversity />}
         {activeTab === "energy-efficiency" && <EnergyEfficiency />}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Shield, Pencil, Trash2, X } from "lucide-react";
+import { Plus, Shield, Pencil, Trash2, X, ArrowLeft } from "lucide-react";
 
 interface User {
   id: string;
@@ -12,6 +12,7 @@ interface User {
   businessUnit: string;
   workgroup: string;
   status: "ACTIVE" | "INACTIVE";
+  assignedOMLs?: string[];
 }
 
 interface Role {
@@ -79,6 +80,7 @@ export default function UsersRoles() {
     businessUnit: "Corporate Strategy & Sustainability",
     workgroup: "GCEO",
     status: "ACTIVE" as "ACTIVE" | "INACTIVE",
+    assignedOMLs: [] as string[],
   });
 
   const [roles] = useState<Role[]>([
@@ -96,6 +98,7 @@ export default function UsersRoles() {
       businessUnit: "Corporate Strategy & Sustainability",
       workgroup: "GCEO",
       status: "ACTIVE",
+      assignedOMLs: [],
     });
     setEditingUser(null);
     setShowUserModal(true);
@@ -109,6 +112,7 @@ export default function UsersRoles() {
       businessUnit: user.businessUnit,
       workgroup: user.workgroup,
       status: user.status,
+      assignedOMLs: user.assignedOMLs || [],
     });
     setEditingUser(user);
     setShowUserModal(true);
@@ -256,21 +260,138 @@ export default function UsersRoles() {
         </table>
       </div>
 
+      {/* Role Permissions Matrix */}
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Role Permissions Matrix
+        </h3>
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="text-left px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  Module / Action
+                </th>
+                <th className="text-center px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  Submitter
+                </th>
+                <th className="text-center px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  Approver
+                </th>
+                <th className="text-center px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  Administrator
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  Data Entry (Draft)
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  Submit for Approval
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  Approve / Reject Records
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  Manage Users
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  Configure Emission Factors
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                  System Integrations
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-gray-300">-</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className="text-green-600 text-xl">✓</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {/* Add/Edit User Modal */}
       {showUserModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <div className="bg-white rounded-xl p-6 w-full max-w-2xl">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">
-                {editingUser ? "Edit User" : "Add New User"}
-              </h3>
-              <button
-                onClick={() => setShowUserModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X size={20} />
-              </button>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setShowUserModal(false)}
+                  className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600"
+                >
+                  <ArrowLeft size={20} />
+                </button>
+                <h3 className="text-xl font-bold text-gray-900">
+                  {editingUser ? "Edit User" : "Add New User"}
+                </h3>
+              </div>
             </div>
+
+            <div className="flex-1 overflow-y-auto p-6">
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -379,9 +500,58 @@ export default function UsersRoles() {
                   </select>
                 </div>
               </div>
+
+              {/* Asset Assignment Registry */}
+              <div className="mt-6 p-5 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
+                      <Shield className="h-4 w-4 text-gray-600" />
+                    </div>
+                    <span className="font-semibold text-gray-900 uppercase text-sm">
+                      Asset Assignment Registry
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-500 italic">
+                    Sourced from Venture & Asset Registry
+                  </span>
+                </div>
+
+                <div className="mb-3">
+                  <label className="block text-sm font-bold text-green-700 mb-3">
+                    JOINT VENTURE (JV)
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {["OML 11", "OML 13", "OML 17", "OML 20", "OML 24", "OML 111", "OML 118", "OML 119"].map((oml) => (
+                      <label key={oml} className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={userForm.assignedOMLs.includes(oml)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setUserForm({
+                                ...userForm,
+                                assignedOMLs: [...userForm.assignedOMLs, oml],
+                              });
+                            } else {
+                              setUserForm({
+                                ...userForm,
+                                assignedOMLs: userForm.assignedOMLs.filter((o) => o !== oml),
+                              });
+                            }
+                          }}
+                          className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                        />
+                        <span className="text-sm text-gray-700">{oml}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-6 pt-6 border-t">
+            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
               <Button variant="outline" onClick={() => setShowUserModal(false)}>
                 Cancel
               </Button>

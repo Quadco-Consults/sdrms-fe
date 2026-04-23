@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import KPICard from "@/components/shared/KPICard";
-import { Plus, Upload } from "lucide-react";
+import { Plus, Upload, Download } from "lucide-react";
 import { CHART_COLORS } from "@/data/dashboard-mock";
 
 interface HSERecord {
@@ -23,6 +23,8 @@ interface HSERecord {
 
 export default function HSESafety() {
   const [showForm, setShowForm] = useState(false);
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [records, setRecords] = useState<HSERecord[]>([
     {
       id: 1,

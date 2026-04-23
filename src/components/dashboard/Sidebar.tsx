@@ -12,6 +12,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
+  Database,
+  BarChart3,
+  UserCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -45,6 +48,11 @@ const mainNavItems: NavItem[] = [
     icon: Cloud,
   },
   {
+    title: "Asset Registry",
+    href: "/dashboard/asset-registry",
+    icon: Database,
+  },
+  {
     title: "Social",
     href: "/social-impact",
     icon: Users,
@@ -58,6 +66,16 @@ const mainNavItems: NavItem[] = [
     title: "Workflow",
     href: "/workflow",
     icon: Workflow,
+  },
+  {
+    title: "Reporting & Audit",
+    href: "/dashboard/reporting",
+    icon: BarChart3,
+  },
+  {
+    title: "Profile",
+    href: "/dashboard/profile",
+    icon: UserCircle,
   },
 ];
 

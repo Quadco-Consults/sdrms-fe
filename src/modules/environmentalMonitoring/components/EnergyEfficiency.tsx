@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Upload, Plus } from "lucide-react";
+import { Upload, Plus, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
@@ -48,6 +48,8 @@ const energyMetrics = [
 export default function EnergyEfficiency() {
   const [energyRecords, setEnergyRecords] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const [formData, setFormData] = useState({
     energySource: "",
@@ -85,6 +87,38 @@ export default function EnergyEfficiency() {
     toast.success("Energy entry logged successfully.");
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFile(file);
+      console.log("File uploaded:", file.name);
+    }
+  };
+
+  const downloadTemplate = () => {
+    const headers = [
+      "Energy Source",
+      "Quantity",
+      "Unit Metrics",
+      "Renewable Type",
+      "Business Unit",
+      "Date",
+      "Description",
+    ];
+    const csvContent =
+      headers.join(",") +
+      "\n" +
+      "Grid Electricity,10000,kWh,Non-Renewable,Upstream,2024-01-01,Sample description";
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "energy_efficiency_template.csv";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-6">
       {/* Energy Metrics Cards */}
@@ -116,6 +150,7 @@ export default function EnergyEfficiency() {
           <Button
             variant="outline"
             className="border-green-600 text-green-600 hover:bg-green-50"
+            onClick={() => setShowBulkUpload(true)}
           >
             <Upload size={16} className="mr-2" />
             Bulk Upload
@@ -352,6 +387,108 @@ export default function EnergyEfficiency() {
           </tbody>
         </table>
       </div>
+
+      {/* Bulk Upload Modal */}
+      {showBulkUpload && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">
+                Bulk Upload: Energy Efficiency
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Upload CSV or Excel files to log multiple energy records at once.
+              </p>
+            </div>
+
+            <div className="p-6">
+              {/* File Structure */}
+              <div className="mb-6">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                  Expected File Structure
+                </h3>
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="font-mono text-gray-600">Energy Source</div>
+                    <div className="font-mono text-gray-600">Quantity</div>
+                    <div className="font-mono text-gray-600">Unit Metrics</div>
+                    <div className="font-mono text-gray-600">Renewable Type</div>
+                    <div className="font-mono text-gray-600">Business Unit</div>
+                    <div className="font-mono text-gray-600">Date</div>
+                    <div className="font-mono text-gray-600">Description</div>
+                  </div>
+                </div>
+                <button
+                  onClick={downloadTemplate}
+                  className="mt-3 text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-2"
+                >
+                  <Download className="h-4 w-4" />
+                  Download CSV Template
+                </button>
+              </div>
+
+              {/* Upload Area */}
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-green-500 transition-colors">
+                <input
+                  type="file"
+                  id="bulk-upload-energy"
+                  accept=".csv,.xlsx,.xls"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="bulk-upload-energy"
+                  className="cursor-pointer flex flex-col items-center"
+                >
+                  <Upload className="h-12 w-12 text-gray-400 mb-3" />
+                  <p className="text-sm font-medium text-gray-900 mb-1">
+                    {uploadedFile
+                      ? `Selected: ${uploadedFile.name}`
+                      : "Click to upload or drag and drop"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    CSV or Excel files only (max 10MB)
+                  </p>
+                </label>
+              </div>
+
+              {uploadedFile && (
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-sm text-green-800 font-medium">
+                    File ready for upload: {uploadedFile.name}
+                  </p>
+                  <p className="text-xs text-green-600 mt-1">
+                    Click "Upload" to process this file
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowBulkUpload(false);
+                  setUploadedFile(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="bg-green-600 hover:bg-green-700 text-white"
+                disabled={!uploadedFile}
+                onClick={() => {
+                  toast.success("Bulk upload completed successfully!");
+                  setShowBulkUpload(false);
+                  setUploadedFile(null);
+                }}
+              >
+                Upload
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
