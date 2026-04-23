@@ -22,9 +22,9 @@ export default function DashboardHeader({ breadcrumbs }: DashboardHeaderProps) {
   const { data: session } = useSession();
 
   // Extract user data from session
-  const firstName = session?.user?.user?.first_name || session?.user?.name?.split(" ")[0] || "";
-  const lastName = session?.user?.user?.last_name || session?.user?.name?.split(" ").slice(1).join(" ") || "";
-  const fullName = firstName && lastName ? `${firstName} ${lastName}` : session?.user?.name || "User";
+  const firstName = session?.user?.user?.first_name || "";
+  const lastName = session?.user?.user?.last_name || "";
+  const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || "User";
 
   const user = {
     name: fullName,
