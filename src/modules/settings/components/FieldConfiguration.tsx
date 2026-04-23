@@ -28,16 +28,16 @@ interface HierarchyItem {
 }
 
 export default function FieldConfiguration() {
-  const [selectedUnit, setSelectedUnit] = useState("NRL");
+  const [selectedUnit, setSelectedUnit] = useState("NNPC Retail Ltd (NRL)");
   const [buOverrideActive, setBuOverrideActive] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(["GHG Emissions"])
+    new Set(["GHG Emissions", "Methane (CH4) Emissions"])
   );
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(["Environment"])
   );
   const [expandedHierarchy, setExpandedHierarchy] = useState<Set<string>>(
-    new Set(["Upstream", "Gas", "Downstream", "LNG", "Corporate"])
+    new Set(["Upstream", "Gas, Power & New Energy", "Downstream", "GCOO", "Finance", "Business Services", "CRM", "Audit", "Legal", "GRC", "CSS"])
   );
 
   const hierarchy: HierarchyItem[] = [
@@ -45,33 +45,105 @@ export default function FieldConfiguration() {
       name: "Upstream",
       percentage: "87%",
       children: [
-        { name: "NPDC", percentage: "87%" },
+        { name: "NNPC E&P Ltd (NEPL)", percentage: "87%" },
+        { name: "NNPC Upstream Investment Management Services (NUIMS)", percentage: "87%" },
+        { name: "NNPC Enserv Ltd (Enserv)", percentage: "87%" },
+        { name: "NNPC Engineering & Technical Company Ltd (NETCO)", percentage: "87%" },
       ],
     },
     {
-      name: "Gas",
+      name: "Gas, Power & New Energy",
       percentage: "87%",
-      children: [{ name: "NGC", percentage: "87%" }],
+      children: [
+        { name: "NNPC Gas Infrastructure Company (NGIC)", percentage: "87%" },
+        { name: "NNPC Gas Marketing Ltd (NGML)", percentage: "87%" },
+        { name: "NNPC Gas & Power Investment Services (NGPIS)", percentage: "87%" },
+        { name: "NNPC New Energy Ltd (NNE)", percentage: "87%" },
+      ],
     },
     {
       name: "Downstream",
       percentage: "87%",
       children: [
-        { name: "NRL", percentage: "87%" },
-        { name: "PPMC", percentage: "87%" },
+        { name: "NNPC Trading Ltd (NTL)", percentage: "87%" },
+        { name: "NNPC Retail Ltd (NRL)", percentage: "87%" },
+        { name: "NNPC Shipping Ltd (NSL)", percentage: "87%" },
+        { name: "NNPC Downstream Investment Services (NDIS)", percentage: "87%" },
+        { name: "NNPC Pipeline and Storage Company (NPSC)", percentage: "87%" },
+        { name: "Refinery (WRPC, PHRC, KRPC)", percentage: "87%" },
       ],
     },
     {
-      name: "LNG",
-      percentage: "87%",
-      children: [{ name: "NLNG", percentage: "87%" }],
-    },
-    {
-      name: "Corporate",
+      name: "GCOO",
       percentage: "87%",
       children: [
-        { name: "NNPC HQ", percentage: "87%" },
-        { name: "ESG Team", percentage: "87%" },
+        { name: "Health, Safety & Environment (HSE)", percentage: "87%" },
+      ],
+    },
+    {
+      name: "Finance",
+      percentage: "87%",
+      children: [
+        { name: "Finance & Investor Relations (FIR)", percentage: "87%" },
+        { name: "Financial Control (FC)", percentage: "87%" },
+        { name: "Treasury", percentage: "87%" },
+        { name: "Tax Management (Tax)", percentage: "87%" },
+        { name: "NNPC Non-Energy Investment Services (NNEIS)", percentage: "87%" },
+        { name: "NNPC Pension Fund Ltd (NPFL)", percentage: "87%" },
+        { name: "Budgeting and Financial Analysis (BFA)", percentage: "87%" },
+      ],
+    },
+    {
+      name: "Business Services",
+      percentage: "87%",
+      children: [
+        { name: "Human Capital Management (HCM)", percentage: "87%" },
+        { name: "Information Technology (IT)", percentage: "87%" },
+        { name: "Security", percentage: "87%" },
+        { name: "Corporate Communications (CC)", percentage: "87%" },
+        { name: "Supply Chain Management (SCM)", percentage: "87%" },
+        { name: "Research, Technology & Innovation (RTI)", percentage: "87%" },
+        { name: "NNPC Medical Services Ltd (NMSL)", percentage: "87%" },
+        { name: "NNPC Academy (NA)", percentage: "87%" },
+        { name: "NNPC Health Maintenance Organisation (NNPC-HMO)", percentage: "87%" },
+        { name: "NNPC Properties Ltd (NPL)", percentage: "87%" },
+        { name: "NNPC Foundation (NF)", percentage: "87%" },
+        { name: "Corporate Administration Service (CAS)", percentage: "87%" },
+      ],
+    },
+    {
+      name: "CRM",
+      percentage: "87%",
+      children: [
+        { name: "Relationship Management (CRM)", percentage: "87%" },
+      ],
+    },
+    {
+      name: "Audit",
+      percentage: "87%",
+      children: [
+        { name: "Audit", percentage: "87%" },
+      ],
+    },
+    {
+      name: "Legal",
+      percentage: "87%",
+      children: [
+        { name: "Legal", percentage: "87%" },
+      ],
+    },
+    {
+      name: "GRC",
+      percentage: "87%",
+      children: [
+        { name: "Governance, Risk & Compliance (GRC)", percentage: "87%" },
+      ],
+    },
+    {
+      name: "CSS",
+      percentage: "87%",
+      children: [
+        { name: "Corporate Strategy & Sustainability (CSS)", percentage: "87%" },
       ],
     },
   ];
@@ -79,8 +151,8 @@ export default function FieldConfiguration() {
   const environmentCategories: Category[] = [
     {
       name: "GHG Emissions",
-      fieldsConfigured: 4,
-      fieldsAvailable: 4,
+      fieldsConfigured: 17,
+      fieldsAvailable: 17,
       enabled: true,
       fields: [
         {
@@ -113,6 +185,190 @@ export default function FieldConfiguration() {
           mandatory: true,
           visible: true,
           regulatoryMapping: "System",
+          state: "",
+        },
+        {
+          name: "Strategic Climate Responsibility (S/BU)",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD Governance",
+          state: "",
+        },
+        {
+          name: "Board Oversight (Climate/GHG)",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD Governance",
+          state: "",
+        },
+        {
+          name: "Climate-Linked Executive Incentives",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD Strategy",
+          state: "",
+        },
+        {
+          name: "Scenario-Based Resilience Testing",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD Strategy",
+          state: "",
+        },
+        {
+          name: "Climate Adaptation & Transition Policies",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 2-23",
+          state: "",
+        },
+        {
+          name: "Methane Mitigation Strategies & Low-Carbon Transition Plan",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Leak Detection and Repair (LDAR) Implementation Details",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Venting Reduction Initiatives & Progress",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 305",
+          state: "",
+        },
+        {
+          name: "Flaring Reduction Targets and Abatement Technology",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Zero Routine Flaring",
+          state: "",
+        },
+        {
+          name: "Data Quality Assurance & Internal Audit Protocols for GHG",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Assurance",
+          state: "",
+        },
+        {
+          name: "GHG Emission Reduction Goals",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 305",
+          state: "",
+        },
+        {
+          name: "GHG Target Performance Analysis",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 305",
+          state: "",
+        },
+        {
+          name: "Emissions Calculation Methodologies",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 305",
+          state: "",
+        },
+      ],
+    },
+    {
+      name: "Methane (CH4) Emissions",
+      fieldsConfigured: 9,
+      fieldsAvailable: 9,
+      enabled: true,
+      fields: [
+        {
+          name: "Total Methane Emissions (tCH4)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Methane Intensity (tCH4/Production Unit)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "OGMP Reporting Level (1-5)",
+          type: "Dropdown",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Fugitive Emissions (tCH4)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Venting Emissions (tCH4)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Incomplete Combustion (tCH4)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Methane Monitoring Technology",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "LDAR Frequency & Coverage",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "OGMP 2.0",
+          state: "",
+        },
+        {
+          name: "Third-Party Verification Status",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Assurance",
           state: "",
         },
       ],

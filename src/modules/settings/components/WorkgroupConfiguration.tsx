@@ -25,29 +25,78 @@ export default function WorkgroupConfiguration() {
     {
       id: "1",
       name: "Upstream",
-      description: "Core business unit focusing on exploration and production activities.",
-      templates: ["UPSTREAM GHG", "UPSTREAM WATER"],
+      description: "Upstream business unit focusing on E&P, investment management, and engineering.",
+      templates: ["GHG...", "Methane..."],
       completion: "87%",
     },
     {
       id: "2",
       name: "Gas, Power & New Energy",
-      description: "Core business unit focusing on gas infrastructure, marketing, and new energy solutions.",
-      templates: ["GAS EMISSIONS"],
+      description: "Gas and renewable energy business unit.",
+      templates: ["Gas..."],
       completion: "87%",
     },
     {
       id: "3",
       name: "Downstream",
-      description: "Core business unit focusing on trading, retail, shipping, and refining.",
-      templates: ["DOWNSTREAM OPS"],
+      description: "Downstream activities including trading, retail, shipping, and refining.",
+      templates: ["Downstream..."],
       completion: "87%",
     },
     {
       id: "4",
+      name: "GCOO",
+      description: "Group Chief Operating Officer division including HSE and specific production assets.",
+      templates: ["HSE..."],
+      completion: "87%",
+    },
+    {
+      id: "5",
       name: "Finance",
-      description: "Support function managing financial control, treasury, and tax management.",
-      templates: ["FINANCE METRICS"],
+      description: "Financial control, treasury, tax, and investment services.",
+      templates: ["Financial..."],
+      completion: "87%",
+    },
+    {
+      id: "6",
+      name: "Business Services",
+      description: "Shared services including HR, IT, security, and supply chain.",
+      templates: ["HSE..."],
+      completion: "87%",
+    },
+    {
+      id: "7",
+      name: "CRM",
+      description: "Corporate Relations Management.",
+      templates: ["Corporate..."],
+      completion: "87%",
+    },
+    {
+      id: "8",
+      name: "Audit",
+      description: "Group Internal Audit.",
+      templates: ["Corporate..."],
+      completion: "87%",
+    },
+    {
+      id: "9",
+      name: "Legal",
+      description: "Group Legal Services.",
+      templates: ["Corporate..."],
+      completion: "87%",
+    },
+    {
+      id: "10",
+      name: "GRC",
+      description: "Governance, Risk & Compliance.",
+      templates: ["Corporate..."],
+      completion: "87%",
+    },
+    {
+      id: "11",
+      name: "CSS",
+      description: "Corporate Strategy & Sustainability.",
+      templates: ["Corporate..."],
       completion: "87%",
     },
   ]);
@@ -55,24 +104,52 @@ export default function WorkgroupConfiguration() {
   const [templates] = useState<Template[]>([
     {
       id: "1",
-      name: "Upstream GHG Template",
-      category: "ENVIRONMENT",
+      name: "GHG Standard Template",
+      category: "Environment",
       subcategory: "GHG Emissions",
-      description: "Standard template for E&P GHG data",
+      description: "Standard GRI/OGMP GHG reporting template",
     },
     {
       id: "2",
-      name: "Upstream Water Template",
-      category: "ENVIRONMENT",
-      subcategory: "Water",
-      description: "Water withdrawal and discharge for E&P",
+      name: "Downstream Retail Template",
+      category: "Environment",
+      subcategory: "Energy",
+      description: "Retail-specific environmental metrics",
     },
     {
       id: "3",
-      name: "Downstream Operations Template",
-      category: "ENVIRONMENT",
-      subcategory: "Energy",
-      description: "Template for retail and refining",
+      name: "Financial ESG Disclosure",
+      category: "Finance",
+      subcategory: "Investments",
+      description: "Template for financial and tax transparency",
+    },
+    {
+      id: "4",
+      name: "Gas & Power performance",
+      category: "Environment",
+      subcategory: "GHG Emissions",
+      description: "Metrics for NGIC and other gas units",
+    },
+    {
+      id: "5",
+      name: "Corporate Compliance",
+      category: "Governance",
+      subcategory: "KPIs",
+      description: "Narrative and GRC compliance questions",
+    },
+    {
+      id: "6",
+      name: "HSE Field Log",
+      category: "Social",
+      subcategory: "Safety",
+      description: "Operational safety and health metrics",
+    },
+    {
+      id: "7",
+      name: "Methane Performance (OGMP)",
+      category: "Environment",
+      subcategory: "Methane (CH4) Emissions",
+      description: "Levels 1-5 Methane reporting",
     },
   ]);
 
@@ -334,9 +411,14 @@ export default function WorkgroupConfiguration() {
                   <option>Upstream</option>
                   <option>Gas, Power & New Energy</option>
                   <option>Downstream</option>
+                  <option>GCOO</option>
                   <option>Finance</option>
-                  <option>Corporate</option>
-                  <option>LNG</option>
+                  <option>Business Services</option>
+                  <option>CRM</option>
+                  <option>Audit</option>
+                  <option>Legal</option>
+                  <option>GRC</option>
+                  <option>CSS</option>
                 </select>
               </div>
 
