@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { User, Mail, Lock, Bell, Save } from "lucide-react";
+import { useState, useRef } from "react";
+import { User, Mail, Lock, Bell, Save, Camera, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
     setIsSaving(true);
@@ -19,26 +24,121 @@ export default function ProfilePage() {
     }, 1500);
   };
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        alert("Please select an image file");
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image size should be less than 5MB");
+        return;
+      }
+
+      // Preview image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload image
+      handleImageUpload(file);
+    }
+  };
+
+  const handleImageUpload = async (file: File) => {
+    setIsUploading(true);
+
+    // TODO: Replace with actual API endpoint
+    const formData = new FormData();
+    formData.append("profile_image", file);
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // TODO: Replace with actual API call
+      // const response = await fetch("/api/user/profile-image", {
+      //   method: "POST",
+      //   body: formData,
+      // });
+      // const data = await response.json();
+
+      alert("Profile picture updated successfully!");
+    } catch (error) {
+      alert("Failed to upload profile picture");
+      setProfileImage(null);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
-    <div className="space-y-6 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <User className="h-6 w-6 text-[#4CAF50]" />
-            Profile Settings
-          </h1>
-          <p className="text-sm text-gray-600 mt-1">
-            Manage your account information and preferences
-          </p>
+    <div>
+      <DashboardHeader
+        breadcrumbs={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Profile" },
+        ]}
+      />
+      <div className="space-y-6 p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <User className="h-6 w-6 text-[#4CAF50]" />
+              Profile Settings
+            </h1>
+            <p className="text-sm text-gray-600 mt-1">
+              Manage your account information and preferences
+            </p>
+          </div>
         </div>
-      </div>
 
       {/* Profile Card */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         <div className="flex items-center gap-4 mb-6">
-          <div className="h-20 w-20 rounded-full bg-[#4CAF50] flex items-center justify-center text-white text-2xl font-bold">
-            AI
+          <div className="relative">
+            <div className="h-20 w-20 rounded-full bg-[#4CAF50] flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
+              {profileImage ? (
+                <Image
+                  src={profileImage}
+                  alt="Profile"
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                "AI"
+              )}
+            </div>
+            <button
+              onClick={triggerFileInput}
+              disabled={isUploading}
+              className="absolute bottom-0 right-0 bg-white rounded-full p-1.5 shadow-md border border-gray-200 hover:bg-gray-50 transition-colors disabled:opacity-50"
+              title="Change profile picture"
+            >
+              {isUploading ? (
+                <div className="w-4 h-4 border-2 border-[#4CAF50] border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Camera className="h-4 w-4 text-gray-600" />
+              )}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageSelect}
+              className="hidden"
+            />
           </div>
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Amina Ibrahim</h2>
@@ -46,6 +146,14 @@ export default function ProfilePage() {
             <p className="text-xs text-gray-500 mt-1">
               Administrator • NNPC Limited
             </p>
+            <button
+              onClick={triggerFileInput}
+              disabled={isUploading}
+              className="text-xs text-[#4CAF50] hover:text-[#45a049] mt-2 font-medium flex items-center gap-1 disabled:opacity-50"
+            >
+              <Upload className="h-3 w-3" />
+              {isUploading ? "Uploading..." : "Upload new picture"}
+            </button>
           </div>
         </div>
 
@@ -243,6 +351,7 @@ export default function ProfilePage() {
           </TabsContent>
         </Tabs>
       </div>
+    </div>
     </div>
   );
 }

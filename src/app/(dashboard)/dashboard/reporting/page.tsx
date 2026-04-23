@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 // Types
 interface Report {
@@ -175,19 +176,26 @@ export default function ReportingPage() {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <FileText className="h-6 w-6 text-[#4CAF50]" />
-            Reporting & Analytics
-          </h1>
-          <p className="text-sm text-gray-600 mt-1">
-            Generate compliance reports and view audit trails
-          </p>
+    <div>
+      <DashboardHeader
+        breadcrumbs={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Reporting & Analytics" },
+        ]}
+      />
+      <div className="space-y-6 p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <FileText className="h-6 w-6 text-[#4CAF50]" />
+              Reporting & Analytics
+            </h1>
+            <p className="text-sm text-gray-600 mt-1">
+              Generate compliance reports and view audit trails
+            </p>
+          </div>
         </div>
-      </div>
 
       {/* Tabs */}
       <Tabs defaultValue="generate" className="space-y-6">
@@ -407,6 +415,7 @@ export default function ReportingPage() {
           </div>
         </TabsContent>
       </Tabs>
+    </div>
     </div>
   );
 }

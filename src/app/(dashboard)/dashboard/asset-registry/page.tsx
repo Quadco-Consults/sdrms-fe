@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 // Types
 interface Asset {
@@ -319,17 +320,24 @@ export default function AssetRegistryPage() {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <MapPin className="h-6 w-6 text-[#4CAF50]" />
-          Asset Registry
-        </h1>
-        <p className="text-sm text-gray-600 mt-1">
-          Manage ventures, assets, and OML tracking
-        </p>
-      </div>
+    <div>
+      <DashboardHeader
+        breadcrumbs={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Asset Registry" },
+        ]}
+      />
+      <div className="space-y-6 p-6">
+        {/* Header */}
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <MapPin className="h-6 w-6 text-[#4CAF50]" />
+            Asset Registry
+          </h1>
+          <p className="text-sm text-gray-600 mt-1">
+            Manage ventures, assets, and OML tracking
+          </p>
+        </div>
 
       {/* Global Filters */}
       <div className="bg-white p-4 rounded-lg border border-gray-200">
@@ -1200,6 +1208,7 @@ export default function AssetRegistryPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

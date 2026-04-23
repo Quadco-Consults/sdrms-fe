@@ -1,8 +1,9 @@
 "use client";
 
-import { Bell, User, Settings, LogOut, ChevronDown } from "lucide-react";
+import { Bell, User, Settings, LogOut, ChevronDown, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ interface DashboardHeaderProps {
 
 export default function DashboardHeader({ breadcrumbs }: DashboardHeaderProps) {
   const { data: session } = useSession();
+  const router = useRouter();
 
   // Extract user data from session
   const firstName = session?.user?.user?.first_name || "";
@@ -31,6 +33,9 @@ export default function DashboardHeader({ breadcrumbs }: DashboardHeaderProps) {
     role: "CHO Sustainability",
     avatar: "/images/avatar-placeholder.jpg",
   };
+
+  // Show back button if there are breadcrumbs (not on root dashboard)
+  const showBackButton = breadcrumbs && breadcrumbs.length > 0;
 
   // Mock notifications - replace with actual notification data
   const notifications = [
@@ -62,22 +67,34 @@ export default function DashboardHeader({ breadcrumbs }: DashboardHeaderProps) {
   return (
     <header className="bg-white border-b border-gray-200 px-8 py-4">
       <div className="flex items-center justify-between">
-        {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-sm">
-          {breadcrumbs?.map((crumb, index) => (
-            <div key={index} className="flex items-center gap-2">
-              {index > 0 && <span className="text-gray-400">→</span>}
-              <span
-                className={
-                  index === breadcrumbs.length - 1
-                    ? "text-gray-900 font-medium"
-                    : "text-gray-500"
-                }
-              >
-                {crumb.label}
-              </span>
-            </div>
-          ))}
+        {/* Back Button and Breadcrumbs */}
+        <div className="flex items-center gap-4">
+          {showBackButton && (
+            <button
+              onClick={() => router.back()}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-[#4CAF50] hover:bg-gray-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              title="Go back"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back</span>
+            </button>
+          )}
+          <div className="flex items-center gap-2 text-sm">
+            {breadcrumbs?.map((crumb, index) => (
+              <div key={index} className="flex items-center gap-2">
+                {index > 0 && <span className="text-gray-400">→</span>}
+                <span
+                  className={
+                    index === breadcrumbs.length - 1
+                      ? "text-gray-900 font-medium"
+                      : "text-gray-500"
+                  }
+                >
+                  {crumb.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* User Info */}
