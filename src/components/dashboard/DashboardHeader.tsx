@@ -28,8 +28,8 @@ export default function DashboardHeader({ breadcrumbs }: DashboardHeaderProps) {
 
   const user = {
     name: fullName,
-    role: session?.user?.user?.role || "CHO Sustainability",
-    avatar: session?.user?.image || "/images/avatar-placeholder.jpg",
+    role: "CHO Sustainability",
+    avatar: "/images/avatar-placeholder.jpg",
   };
 
   // Mock notifications - replace with actual notification data
