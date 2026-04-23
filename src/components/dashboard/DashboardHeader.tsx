@@ -34,8 +34,8 @@ export default function DashboardHeader({ breadcrumbs }: DashboardHeaderProps) {
     avatar: "/images/avatar-placeholder.jpg",
   };
 
-  // Show back button if there are breadcrumbs (not on root dashboard)
-  const showBackButton = breadcrumbs && breadcrumbs.length > 0;
+  // Show back button only on sub-pages (2+ breadcrumb items)
+  const showBackButton = breadcrumbs && breadcrumbs.length > 1;
 
   // Mock notifications - replace with actual notification data
   const notifications = [
