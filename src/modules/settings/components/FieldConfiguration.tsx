@@ -615,6 +615,189 @@ export default function FieldConfiguration() {
     },
   ];
 
+  const assetRegistryCategories: Category[] = [
+    {
+      name: "Venture & Asset Registry",
+      fieldsConfigured: 7,
+      fieldsAvailable: 7,
+      enabled: true,
+      fields: [
+        {
+          name: "Asset Name",
+          type: "Text",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Asset Type",
+          type: "Dropdown",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Location/Region",
+          type: "Text",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Operational Status",
+          type: "Dropdown",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Annual Production Volume",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Carbon Intensity (tCO2e/unit)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "ESG Risk Rating",
+          type: "Dropdown",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+      ],
+    },
+    {
+      name: "Excluded Assets",
+      fieldsConfigured: 3,
+      fieldsAvailable: 3,
+      enabled: true,
+      fields: [
+        {
+          name: "Asset Exclusion Reason",
+          type: "Qualitative",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Exclusion Date",
+          type: "Date",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+        {
+          name: "Re-inclusion Criteria",
+          type: "Qualitative",
+          mandatory: false,
+          visible: true,
+          regulatoryMapping: "Internal",
+          state: "",
+        },
+      ],
+    },
+  ];
+
+  const investmentCategories: Category[] = [
+    {
+      name: "Low Carbon Investments",
+      fieldsConfigured: 3,
+      fieldsAvailable: 3,
+      enabled: true,
+      fields: [
+        {
+          name: "Investment Amount (USD)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD",
+          state: "",
+        },
+        {
+          name: "Technology/Project Type",
+          type: "Dropdown",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD",
+          state: "",
+        },
+        {
+          name: "Expected Emissions Reduction (tCO2e)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "TCFD",
+          state: "",
+        },
+      ],
+    },
+    {
+      name: "Renewable Projects",
+      fieldsConfigured: 3,
+      fieldsAvailable: 3,
+      enabled: true,
+      fields: [
+        {
+          name: "Project Name",
+          type: "Text",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 302",
+          state: "",
+        },
+        {
+          name: "Renewable Energy Capacity (MW)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 302",
+          state: "",
+        },
+        {
+          name: "Annual Energy Generation (MWh)",
+          type: "Numeric",
+          mandatory: true,
+          visible: true,
+          regulatoryMapping: "GRI 302",
+          state: "",
+        },
+      ],
+    },
+  ];
+
+  const reportingAuditCategories: Category[] = [
+    {
+      name: "Report Generation Center",
+      fieldsConfigured: 0,
+      fieldsAvailable: 0,
+      enabled: false,
+      fields: [],
+    },
+    {
+      name: "System Audit Trail",
+      fieldsConfigured: 0,
+      fieldsAvailable: 0,
+      enabled: false,
+      fields: [],
+    },
+  ];
+
   const toggleCategory = (categoryName: string) => {
     const newExpanded = new Set(expandedCategories);
     if (newExpanded.has(categoryName)) {
@@ -1084,6 +1267,372 @@ export default function FieldConfiguration() {
               {expandedSections.has("Governance") && (
                 <div className="px-6 pb-4 space-y-4">
                   {governanceCategories.map((category) => (
+                    <div key={category.name} className="border-b border-gray-100 pb-4">
+                      <button
+                        onClick={() => toggleCategory(category.name)}
+                        className="w-full flex items-center justify-between mb-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          {expandedCategories.has(category.name) ? (
+                            <ChevronDown className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4 text-green-600" />
+                          )}
+                          <span className="font-semibold text-gray-900">
+                            {category.name}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {category.fieldsConfigured} fields configured /{" "}
+                            {category.fieldsAvailable} available
+                          </span>
+                        </div>
+                      </button>
+
+                      {expandedCategories.has(category.name) && (
+                        <div className="overflow-hidden rounded-lg border border-gray-200 ml-6">
+                          <table className="w-full">
+                            <thead>
+                              <tr className="bg-gray-50 border-b border-gray-200">
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Field Name
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Type
+                                </th>
+                                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Mandatory
+                                </th>
+                                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Visible
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Regulatory Mapping
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  State
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {category.fields.length > 0 ? (
+                                category.fields.map((field, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-b border-gray-100 hover:bg-gray-50"
+                                  >
+                                    <td className="px-4 py-3 text-sm text-gray-900">
+                                      {field.name}
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
+                                      {field.type}
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={field.mandatory}
+                                        className="w-4 h-4 text-green-600 rounded border-gray-300"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={field.visible}
+                                        className="w-4 h-4 text-green-600 rounded border-gray-300"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
+                                        {field.regulatoryMapping}
+                                      </span>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
+                                      {field.state || "-"}
+                                    </td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-500">
+                                    No fields configured
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Asset Registry Section */}
+            <div className="border-b border-gray-200">
+              <button
+                onClick={() => toggleSection("Asset Registry")}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-2">
+                  <h5 className="font-semibold text-gray-900">Asset Registry</h5>
+                  <span className="text-xs text-gray-500">
+                    Applied to all BUs in this workgroup unless overridden
+                  </span>
+                </div>
+                {expandedSections.has("Asset Registry") ? (
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                ) : (
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                )}
+              </button>
+
+              {expandedSections.has("Asset Registry") && (
+                <div className="px-6 pb-4 space-y-4">
+                  {assetRegistryCategories.map((category) => (
+                    <div key={category.name} className="border-b border-gray-100 pb-4">
+                      <button
+                        onClick={() => toggleCategory(category.name)}
+                        className="w-full flex items-center justify-between mb-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          {expandedCategories.has(category.name) ? (
+                            <ChevronDown className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4 text-green-600" />
+                          )}
+                          <span className="font-semibold text-gray-900">
+                            {category.name}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {category.fieldsConfigured} fields configured /{" "}
+                            {category.fieldsAvailable} available
+                          </span>
+                        </div>
+                      </button>
+
+                      {expandedCategories.has(category.name) && (
+                        <div className="overflow-hidden rounded-lg border border-gray-200 ml-6">
+                          <table className="w-full">
+                            <thead>
+                              <tr className="bg-gray-50 border-b border-gray-200">
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Field Name
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Type
+                                </th>
+                                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Mandatory
+                                </th>
+                                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Visible
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Regulatory Mapping
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  State
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {category.fields.length > 0 ? (
+                                category.fields.map((field, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-b border-gray-100 hover:bg-gray-50"
+                                  >
+                                    <td className="px-4 py-3 text-sm text-gray-900">
+                                      {field.name}
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
+                                      {field.type}
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={field.mandatory}
+                                        className="w-4 h-4 text-green-600 rounded border-gray-300"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={field.visible}
+                                        className="w-4 h-4 text-green-600 rounded border-gray-300"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
+                                        {field.regulatoryMapping}
+                                      </span>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
+                                      {field.state || "-"}
+                                    </td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-500">
+                                    No fields configured
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Investments Section */}
+            <div className="border-b border-gray-200">
+              <button
+                onClick={() => toggleSection("Investments")}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-2">
+                  <h5 className="font-semibold text-gray-900">Investments</h5>
+                  <span className="text-xs text-gray-500">
+                    Applied to all BUs in this workgroup unless overridden
+                  </span>
+                </div>
+                {expandedSections.has("Investments") ? (
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                ) : (
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                )}
+              </button>
+
+              {expandedSections.has("Investments") && (
+                <div className="px-6 pb-4 space-y-4">
+                  {investmentCategories.map((category) => (
+                    <div key={category.name} className="border-b border-gray-100 pb-4">
+                      <button
+                        onClick={() => toggleCategory(category.name)}
+                        className="w-full flex items-center justify-between mb-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          {expandedCategories.has(category.name) ? (
+                            <ChevronDown className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4 text-green-600" />
+                          )}
+                          <span className="font-semibold text-gray-900">
+                            {category.name}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {category.fieldsConfigured} fields configured /{" "}
+                            {category.fieldsAvailable} available
+                          </span>
+                        </div>
+                      </button>
+
+                      {expandedCategories.has(category.name) && (
+                        <div className="overflow-hidden rounded-lg border border-gray-200 ml-6">
+                          <table className="w-full">
+                            <thead>
+                              <tr className="bg-gray-50 border-b border-gray-200">
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Field Name
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Type
+                                </th>
+                                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Mandatory
+                                </th>
+                                <th className="text-center px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Visible
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  Regulatory Mapping
+                                </th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-700">
+                                  State
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {category.fields.length > 0 ? (
+                                category.fields.map((field, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-b border-gray-100 hover:bg-gray-50"
+                                  >
+                                    <td className="px-4 py-3 text-sm text-gray-900">
+                                      {field.name}
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
+                                      {field.type}
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={field.mandatory}
+                                        className="w-4 h-4 text-green-600 rounded border-gray-300"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={field.visible}
+                                        className="w-4 h-4 text-green-600 rounded border-gray-300"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
+                                        {field.regulatoryMapping}
+                                      </span>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
+                                      {field.state || "-"}
+                                    </td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-500">
+                                    No fields configured
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Reporting & Audit Section */}
+            <div className="border-b border-gray-200">
+              <button
+                onClick={() => toggleSection("Reporting & Audit")}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-2">
+                  <h5 className="font-semibold text-gray-900">Reporting & Audit</h5>
+                  <span className="text-xs text-gray-500">
+                    Applied to all BUs in this workgroup unless overridden
+                  </span>
+                </div>
+                {expandedSections.has("Reporting & Audit") ? (
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                ) : (
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                )}
+              </button>
+
+              {expandedSections.has("Reporting & Audit") && (
+                <div className="px-6 pb-4 space-y-4">
+                  {reportingAuditCategories.map((category) => (
                     <div key={category.name} className="border-b border-gray-100 pb-4">
                       <button
                         onClick={() => toggleCategory(category.name)}
